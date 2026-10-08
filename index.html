@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SecureShop educational e-commerce prototype">
+  <title>SecureShop | Online Store</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" data-page="home">Secure<span>Shop</span></a>
+    <form id="searchForm" class="search">
+      <input id="searchInput" type="search" placeholder="Search products..." aria-label="Search products">
+      <button type="submit">Search</button>
+    </form>
+    <nav class="nav">
+      <button data-page="home">Home</button>
+      <button data-page="products">Products</button>
+      <button data-page="orders">Orders</button>
+      <button data-page="profile">Profile</button>
+      <button data-page="admin" id="adminNav" hidden>Admin</button>
+      <button id="cartButton">Cart (<span id="cartCount">0</span>)</button>
+      <button id="authButton" class="primary">Login</button>
+      <button id="logoutButton" hidden>Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="homePage" class="page">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">WELCOME TO SECURESHOP</p>
+          <h1>Shopping made simple.</h1>
+          <p>Discover useful products in one convenient place.</p>
+          <button class="primary" data-page="products">Explore Products</button>
+        </div>
+        <div class="hero-icon" aria-hidden="true">🛍️</div>
+      </div>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">OUR COLLECTION</p>
+          <h2>Featured products</h2>
+        </div>
+        <button data-page="products">View all</button>
+      </div>
+      <div id="featuredProducts" class="product-grid"></div>
+    </section>
+
+    <section id="productsPage" class="page" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">SHOP</p>
+          <h1>All products</h1>
+        </div>
+        <select id="categoryFilter" aria-label="Filter by category">
+          <option value="all">All categories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Fashion">Fashion</option>
+          <option value="Home">Home</option>
+          <option value="Accessories">Accessories</option>
+        </select>
+      </div>
+      <p id="productMessage" class="muted"></p>
+      <div id="productsGrid" class="product-grid"></div>
+    </section>
+
+    <section id="cartPage" class="page" hidden>
+      <h1>Your shopping cart</h1>
+      <div id="cartItems"></div>
+      <div class="cart-summary">
+        <h2>Total: <span id="cartTotal">₹0</span></h2>
+        <button id="checkoutButton" class="primary">Place demo order</button>
+      </div>
+    </section>
+
+    <section id="ordersPage" class="page" hidden>
+      <h1>Your orders</h1>
+      <p class="muted">Orders placed during this browser demo appear here.</p>
+      <div id="ordersList"></div>
+    </section>
+
+    <section id="profilePage" class="page" hidden>
+      <h1>Your profile</h1>
+      <div class="panel">
+        <p><strong>Name:</strong> <span id="profileName">Guest</span></p>
+        <p><strong>Email:</strong> <span id="profileEmail">Not logged in</span></p>
+        <p class="muted">This profile is stored in this browser demo.</p>
+        <button id="profileAuthButton" class="primary">Login or register</button>
+      </div>
+    </section>
+
+    <section id="adminPage" class="page" hidden>
+      <h1>Admin product management</h1>
+      <p class="notice">Demo only: admin permissions are not securely enforced by a server.</p>
+      <form id="productForm" class="panel form-grid">
+        <label>Product name
+          <input id="productName" required maxlength="80" placeholder="Product name">
+        </label>
+        <label>Price (₹)
+          <input id="productPrice" required type="number" min="1" step="1" placeholder="999">
+        </label>
+        <label>Category
+          <select id="productCategory">
+            <option>Electronics</option>
+            <option>Fashion</option>
+            <option>Home</option>
+            <option>Accessories</option>
+          </select>
+        </label>
+        <label>Emoji
+          <input id="productEmoji" maxlength="8" placeholder="📦">
+        </label>
+        <label class="full">Description
+          <input id="productDescription" maxlength="200" placeholder="Product description">
+        </label>
+        <button class="primary" type="submit">Add product</button>
+      </form>
+      <div id="adminProducts"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 SecureShop · Educational e-commerce prototype</p>
+    <p>Do not enter real passwords or payment details.</p>
+  </footer>
+
+  <div id="authModal" class="modal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <button class="modal-close" id="closeAuth" aria-label="Close">×</button>
+      <h2 id="authTitle">Welcome back</h2>
+      <p class="muted">Use a demo account to explore this prototype.</p>
+      <div class="tabs">
+        <button id="loginTab" class="active" type="button">Login</button>
+        <button id="registerTab" type="button">Register</button>
+      </div>
+      <form id="authForm">
+        <label id="nameLabel" hidden>Full name
+          <input id="authName" maxlength="80" autocomplete="name">
+        </label>
+        <label>Email
+          <input id="authEmail" type="email" required autocomplete="email" maxlength="254">
+        </label>
+        <label>Password
+          <input id="authPassword" type="password" required minlength="8" maxlength="128" autocomplete="current-password">
+        </label>
+        <p id="authMessage" class="message" role="status"></p>
+        <button class="primary wide" id="authSubmit" type="submit">Login</button>
+      </form>
+      <div class="demo-note">
+        <strong>Demo admin account</strong>
+        <p>Email: admin@secureshop.demo</p>
+        <p>Password: AdminDemo123!</p>
+        <p>For local demonstration only. Never use these credentials in production.</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
